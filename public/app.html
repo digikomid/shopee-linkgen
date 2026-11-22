@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Shopee Link Generator â€” AturDuit</title>
+<title>Shopee Link Generator — AturDuit</title>
 <meta name="description" content="Generate & kelola link affiliate Shopee bertaglink. Klasifikasi, arsip, penyimpanan lokal.">
 <meta name="theme-color" content="#EE4D2D">
 <link rel="manifest" href="/manifest.webmanifest">
@@ -124,12 +124,12 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
 
 <header><div class="wrap hrow">
   <div class="logo">
-    <div class="logo-ic">â›“</div>
+    <div class="logo-ic">⛓</div>
     <div><h1>Shopee Link Generator</h1><p>Generate &amp; kelola link affiliate Shopee</p></div>
   </div>
   <div style="display:flex;gap:8px;align-items:center">
     <div class="idbadge"><span class="dot" id="idDot"></span><span id="idText">Affiliate ID: Belum Diset</span><button onclick="scrollToSettings()" style="background:none;color:var(--o);font-size:11.5px;font-weight:700">Ubah</button></div>
-    <button onclick="installPWA()" id="installBtn" class="btn btn-o hide" style="padding:7px 12px;font-size:12px">â¬‡ Install App</button>
+    <button onclick="installPWA()" id="installBtn" class="btn btn-o hide" style="padding:7px 12px;font-size:12px">⬇ Install App</button>
   </div>
 </div></header>
 
@@ -137,23 +137,23 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
 
 <!-- SETTINGS -->
 <section id="settingsSection" class="card">
-  <h2>ðŸªª Pengaturan Affiliate ID <span style="margin-left:auto;font-size:10.5px;font-weight:500;color:var(--o);background:var(--ol);padding:3px 8px;border-radius:7px;border:1px solid #fed7aa">Cukup diset 1x</span></h2>
+  <h2>🪪 Pengaturan Affiliate ID <span style="margin-left:auto;font-size:10.5px;font-weight:500;color:var(--o);background:var(--ol);padding:3px 8px;border-radius:7px;border:1px solid #fed7aa">Cukup diset 1x</span></h2>
   <p class="hint" style="margin:0 0 10px">Masukkan ID Affiliate (angka saja) ATAU paste link affiliate lama untuk otomatis diekstrak. Data tersimpan di perangkat Anda.</p>
   <div class="row">
     <input type="text" id="affiliateIdInput" placeholder="Contoh: 11301234567 atau paste link affiliate Anda...">
-    <button onclick="saveAffId()" class="btn btn-o" style="flex:0 0 auto">ðŸ’¾ Simpan ID</button>
+    <button onclick="saveAffId()" class="btn btn-o" style="flex:0 0 auto">💾 Simpan ID</button>
   </div>
-  <p class="hint hide" id="idHelp">âœ… ID Aktif: <b class="mono" id="idActive"></b></p>
+  <p class="hint hide" id="idHelp">✅ ID Aktif: <b class="mono" id="idActive"></b></p>
 </section>
 
 <!-- TABS -->
 <section class="card" style="padding:0;overflow:hidden">
   <div class="tabs">
-    <button class="tab on" id="tb-single" onclick="switchTab('single')">âš¡ Generate</button>
-    <button class="tab" id="tb-bulk" onclick="switchTab('bulk')">ðŸ“‹ Bulk</button>
-    <button class="tab" id="tb-history" onclick="switchTab('history')">ðŸ—‚ Tersimpan (<span id="nSaved">0</span>)</button>
-    <button class="tab" id="tb-archive" onclick="switchTab('archive')">ðŸ“¦ Arsip (<span id="nArch">0</span>)</button>
-    <button class="tab" id="tb-guide" onclick="switchTab('guide')">â“ Panduan</button>
+    <button class="tab on" id="tb-single" onclick="switchTab('single')">⚡ Generate</button>
+    <button class="tab" id="tb-bulk" onclick="switchTab('bulk')">📋 Bulk</button>
+    <button class="tab" id="tb-history" onclick="switchTab('history')">🗂 Tersimpan (<span id="nSaved">0</span>)</button>
+    <button class="tab" id="tb-archive" onclick="switchTab('archive')">📦 Arsip (<span id="nArch">0</span>)</button>
+    <button class="tab" id="tb-guide" onclick="switchTab('guide')">❓ Panduan</button>
   </div>
 
   <!-- GENERATE -->
@@ -163,7 +163,7 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
     <p class="hint">Mendukung format <code>i.ShopID.ItemID</code>, <code>/product/ID/ID</code>, <code>?shopid=&amp;itemid=</code>, atau isi manual di bawah.</p>
 
     <details style="margin-top:12px">
-      <summary>âš™ Input Manual Shop ID &amp; Item ID (untuk shortlink)</summary>
+      <summary>⚙ Input Manual Shop ID &amp; Item ID (untuk shortlink)</summary>
       <div class="row" style="margin-top:10px">
         <div><label style="font-size:11.5px">Shop ID</label><input type="text" id="mShop" inputmode="numeric" oninput="gen()" placeholder="214693299" class="mono"></div>
         <div><label style="font-size:11.5px">Item ID</label><input type="text" id="mItem" inputmode="numeric" oninput="gen()" placeholder="29866829394" class="mono"></div>
@@ -172,11 +172,11 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
 
     <div style="margin-top:16px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <label style="margin:0">2. Parameter Taglink (1â€“5)</label>
-        <button onclick="clearTags()" class="btn btn-s" style="padding:5px 10px;font-size:11.5px">â†º Kosongkan</button>
+        <label style="margin:0">2. Parameter Taglink (1–5)</label>
+        <button onclick="clearTags()" class="btn btn-s" style="padding:5px 10px;font-size:11.5px">↺ Kosongkan</button>
       </div>
       <div class="presets">
-        <span style="font-size:11.5px;font-weight:700;color:#475569">âš¡ Preset Tag 1:</span>
+        <span style="font-size:11.5px;font-weight:700;color:#475569">⚡ Preset Tag 1:</span>
         <button class="preset" onclick="preset('igreels')">igreels</button>
         <button class="preset" onclick="preset('fbreels')">fbreels</button>
         <button class="preset" onclick="preset('shopeevideo')">shopeevideo</button>
@@ -201,14 +201,14 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
     </div>
 
     <div class="out" style="margin-top:16px">
-      <div class="outhead"><b>ðŸ”— Hasil Link Affiliate</b><span class="mono" id="detected" style="font-size:10.5px;color:#94a3b8">Shop: - | Item: -</span></div>
+      <div class="outhead"><b>🔗 Hasil Link Affiliate</b><span class="mono" id="detected" style="font-size:10.5px;color:#94a3b8">Shop: - | Item: -</span></div>
       <div class="linkbox" id="output">Masukkan link produk Shopee di atas...</div>
       <div class="outfoot">
         <span class="badge-dark" id="tagBadge">utm_content=----</span>
         <div style="display:flex;gap:7px;flex-wrap:wrap">
-          <button onclick="testOpen()" id="btnTest" class="btn btn-s" disabled style="background:#1e293b;color:#e2e8f0">â†— Tes Buka</button>
-          <button onclick="copyResult()" id="btnCopy" class="btn btn-o" disabled>ðŸ“‹ <span id="btnCopyTxt">Salin Link</span></button>
-          <button onclick="showSave()" id="btnSave" class="btn btn-g" disabled>ðŸ”– Simpan</button>
+          <button onclick="testOpen()" id="btnTest" class="btn btn-s" disabled style="background:#1e293b;color:#e2e8f0">↗ Tes Buka</button>
+          <button onclick="copyResult()" id="btnCopy" class="btn btn-o" disabled>📋 <span id="btnCopyTxt">Salin Link</span></button>
+          <button onclick="showSave()" id="btnSave" class="btn btn-g" disabled>🔖 Simpan</button>
         </div>
       </div>
     </div>
@@ -223,14 +223,14 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
       <div><label style="font-size:11.5px">Global Tag 1</label><input id="bT1" placeholder="igreels" class="mono"></div>
       <div><label style="font-size:11.5px">Global Tag 2</label><input id="bT2" placeholder="promonop" class="mono"></div>
       <div><label style="font-size:11.5px">Global Tag 3</label><input id="bT3" class="mono"></div>
-      <div style="display:flex;align-items:flex-end"><button onclick="processBulk()" class="btn btn-o" style="width:100%">âš™ Proses Semua</button></div>
+      <div style="display:flex;align-items:flex-end"><button onclick="processBulk()" class="btn btn-o" style="width:100%">⚙ Proses Semua</button></div>
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin:14px 0 9px">
       <b style="font-size:13.5px">Hasil (<span id="bCount">0</span> Link)</b>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button onclick="copyAllBulk()" class="btn btn-s">ðŸ“‹ Salin Semua</button>
-        <button onclick="dlBulkCSV()" class="btn btn-g">ðŸ“„ Unduh CSV</button>
-        <button onclick="saveBulk()" class="btn btn-o">ðŸ”– Simpan Semua</button>
+        <button onclick="copyAllBulk()" class="btn btn-s">📋 Salin Semua</button>
+        <button onclick="dlBulkCSV()" class="btn btn-g">📄 Unduh CSV</button>
+        <button onclick="saveBulk()" class="btn btn-o">🔖 Simpan Semua</button>
       </div>
     </div>
     <div class="tblwrap">
@@ -244,16 +244,16 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
   <!-- TERSIMPAN -->
   <div class="pane hide" id="tp-history">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">
-      <div><b style="font-size:14px">ðŸ—‚ Link Tersimpan</b><p class="hint" style="margin:0">Tanpa batas jumlah â€¢ tersimpan lokal di perangkat ini</p></div>
+      <div><b style="font-size:14px">🗂 Link Tersimpan</b><p class="hint" style="margin:0">Tanpa batas jumlah • tersimpan lokal di perangkat ini</p></div>
       <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button onclick="expJSON()" class="btn btn-s">â¬‡ Backup JSON</button>
-        <button onclick="expCSV()" class="btn btn-s">ðŸ“„ CSV</button>
-        <label class="btn btn-s" style="cursor:pointer">â¬† Restore<input type="file" id="impFile" accept=".json" style="display:none" onchange="impJSON(event)"></label>
+        <button onclick="expJSON()" class="btn btn-s">⬇ Backup JSON</button>
+        <button onclick="expCSV()" class="btn btn-s">📄 CSV</button>
+        <label class="btn btn-s" style="cursor:pointer">⬆ Restore<input type="file" id="impFile" accept=".json" style="display:none" onchange="impJSON(event)"></label>
       </div>
     </div>
     <div class="filterbar">
       <div class="frow">
-        <input type="text" id="fSearch" oninput="renderSaved()" placeholder="ðŸ” Cari nama, URL, ID, tag, catatan...">
+        <input type="text" id="fSearch" oninput="renderSaved()" placeholder="🔍 Cari nama, URL, ID, tag, catatan...">
         <select id="fCat" onchange="renderSaved()"></select>
         <select id="fSort" onchange="renderSaved()">
           <option value="new">Terbaru</option><option value="old">Terlama</option><option value="name">Nama A-Z</option>
@@ -261,7 +261,7 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
         <div class="chipbar" id="catChips"></div>
-        <button onclick="openCatModal()" class="btn btn-s" style="padding:4px 10px;font-size:11.5px">ðŸ· Kelola Kategori</button>
+        <button onclick="openCatModal()" class="btn btn-s" style="padding:4px 10px;font-size:11.5px">🏷 Kelola Kategori</button>
       </div>
     </div>
     <div class="list" id="savedList" style="margin-top:12px"></div>
@@ -270,68 +270,68 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
   <!-- ARSIP -->
   <div class="pane hide" id="tp-archive">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">
-      <div><b style="font-size:14px">ðŸ“¦ Link Terarsip</b><p class="hint" style="margin:0">Tidak tampil di daftar utama, tetap bisa dicari &amp; dipulihkan</p></div>
-      <button onclick="expArchCSV()" class="btn btn-s">ðŸ“„ Unduh CSV Arsip</button>
+      <div><b style="font-size:14px">📦 Link Terarsip</b><p class="hint" style="margin:0">Tidak tampil di daftar utama, tetap bisa dicari &amp; dipulihkan</p></div>
+      <button onclick="expArchCSV()" class="btn btn-s">📄 Unduh CSV Arsip</button>
     </div>
-    <input type="text" id="aSearch" oninput="renderArch()" placeholder="ðŸ” Cari di arsip...">
+    <input type="text" id="aSearch" oninput="renderArch()" placeholder="🔍 Cari di arsip...">
     <div class="list" id="archList" style="margin-top:12px"></div>
   </div>
 
   <!-- PANDUAN -->
   <div class="pane hide guide" id="tp-guide">
     <div class="box" style="background:var(--ol);border-color:#fed7aa">
-      <h4 style="color:var(--txt)">ðŸ’¡ Memahami 5 Parameter Taglink Shopee</h4>
-      Parameter <code style="background:#fff">utm_content</code> dipisah tanda strip (<b style="color:var(--o)">-</b>) membagi data komisi ke 5 kolom laporan CSV: <b>Tag_link1</b>â€“<b>Tag_link5</b>.
+      <h4 style="color:var(--txt)">💡 Memahami 5 Parameter Taglink Shopee</h4>
+      Parameter <code style="background:#fff">utm_content</code> dipisah tanda strip (<b style="color:var(--o)">-</b>) membagi data komisi ke 5 kolom laporan CSV: <b>Tag_link1</b>–<b>Tag_link5</b>.
     </div>
     <div class="box">
       <h4>Struktur URL</h4>
       <code class="mono" style="display:block;background:#0f172a;color:#fdba74;padding:11px;border-radius:9px;font-size:11.5px;word-break:break-all">...&amp;utm_content=TAG1-TAG2-TAG3-TAG4-TAG5</code>
-      <p class="hint" style="margin-top:8px">Contoh: <code>utm_content=igreels-lemsepatu1----</code> â†’ Tag1=igreels, Tag2=lemsepatu1, Tag3â€“5 kosong.</p>
+      <p class="hint" style="margin-top:8px">Contoh: <code>utm_content=igreels-lemsepatu1----</code> → Tag1=igreels, Tag2=lemsepatu1, Tag3–5 kosong.</p>
     </div>
     <div class="box">
       <h4>Tips Penamaan Tag</h4>
       <b>Tag 1</b>: platform/media (igreels, fbreels, shopeevideo).<br>
       <b>Tag 2</b>: kata kunci produk/campaign.<br>
-      <b>Tag 3â€“5</b>: versi konten, tanggal promo, akun pembuat.
+      <b>Tag 3–5</b>: versi konten, tanggal promo, akun pembuat.
     </div>
     <div class="box" style="background:#fef2f2;border-color:#fecaca">
-      <b style="color:var(--r)">âš  Jangan pakai tanda strip (-) di dalam nama tag!</b>
+      <b style="color:var(--r)">⚠ Jangan pakai tanda strip (-) di dalam nama tag!</b>
       <p class="hint" style="margin-top:4px">Strip = pemisah kolom. <s>ig-reels</s> terbaca Tag1=<code>ig</code>, Tag2=<code>reels</code>. Generator ini otomatis membersihkannya.</p>
     </div>
     <div class="box" style="background:#f0f9ff;border-color:#bae6fd">
-      <b style="color:#0369a1">ðŸ“± Install sebagai Aplikasi (PWA)</b>
-      <p class="hint" style="margin-top:4px">Klik tombol <b>Install App</b> di header, atau menu browser â†’ "Add to Home Screen". Data 100% lokal di perangkat Anda, aplikasi bisa dibuka offline.</p>
+      <b style="color:#0369a1">📱 Install sebagai Aplikasi (PWA)</b>
+      <p class="hint" style="margin-top:4px">Klik tombol <b>Install App</b> di header, atau menu browser → "Add to Home Screen". Data 100% lokal di perangkat Anda, aplikasi bisa dibuka offline.</p>
     </div>
   </div>
 </section>
 </main>
 
-<footer>Shopee Affiliate Link Generator â€¢ <b>aturduit.web.id</b> â€¢ Data tersimpan lokal di perangkat Anda.</footer>
+<footer>Shopee Affiliate Link Generator • <b>aturduit.web.id</b> • Data tersimpan lokal di perangkat Anda.</footer>
 
 <!-- MODAL SIMPAN -->
 <div class="modal" id="mSave"><div class="mbox">
-  <div class="mhead"><h3>ðŸ”– Simpan Link</h3><button class="mclose" onclick="closeM('mSave')">âœ•</button></div>
+  <div class="mhead"><h3>🔖 Simpan Link</h3><button class="mclose" onclick="closeM('mSave')">✕</button></div>
   <div class="field"><label>Nama / Judul Link *</label><input type="text" id="sTitle" placeholder="Contoh: Lemari Sepatu Batch 1 - IG Reels"></div>
   <div class="field"><label>Kategori</label><select id="sCat"></select><button onclick="openCatModal()" style="background:none;color:var(--o);font-size:11px;margin-top:4px;padding:0">+ Kategori baru?</button></div>
   <div class="field"><label>Catatan (opsional)</label><textarea id="sNote" rows="2" placeholder="Catatan tambahan..."></textarea></div>
-  <div class="row" style="margin-top:6px"><button class="btn btn-s" onclick="closeM('mSave')">Batal</button><button class="btn btn-o" onclick="doSave()">ðŸ’¾ Simpan</button></div>
+  <div class="row" style="margin-top:6px"><button class="btn btn-s" onclick="closeM('mSave')">Batal</button><button class="btn btn-o" onclick="doSave()">💾 Simpan</button></div>
 </div></div>
 
 <!-- MODAL EDIT -->
 <div class="modal" id="mEdit"><div class="mbox">
-  <div class="mhead"><h3>âœ Edit Link</h3><button class="mclose" onclick="closeM('mEdit')">âœ•</button></div>
+  <div class="mhead"><h3>✏ Edit Link</h3><button class="mclose" onclick="closeM('mEdit')">✕</button></div>
   <input type="hidden" id="eId">
   <div class="field"><label>Nama / Judul</label><input type="text" id="eTitle"></div>
   <div class="field"><label>Kategori</label><select id="eCat"></select></div>
   <div class="field"><label>Catatan</label><textarea id="eNote" rows="2"></textarea></div>
-  <div class="row" style="margin-top:6px"><button class="btn btn-s" onclick="closeM('mEdit')">Batal</button><button class="btn btn-o" onclick="doEdit()">âœ“ Simpan Perubahan</button></div>
+  <div class="row" style="margin-top:6px"><button class="btn btn-s" onclick="closeM('mEdit')">Batal</button><button class="btn btn-o" onclick="doEdit()">✓ Simpan Perubahan</button></div>
 </div></div>
 
 <!-- MODAL KATEGORI -->
 <div class="modal" id="mCat"><div class="mbox">
-  <div class="mhead"><h3>ðŸ· Kelola Kategori</h3><button class="mclose" onclick="closeM('mCat')">âœ•</button></div>
+  <div class="mhead"><h3>🏷 Kelola Kategori</h3><button class="mclose" onclick="closeM('mCat')">✕</button></div>
   <div id="catList" style="display:flex;flex-direction:column;gap:7px;max-height:240px;overflow-y:auto;margin-bottom:14px"></div>
-  <div class="row"><input type="text" id="newCat" placeholder="Nama kategori baru..." onkeydown="if(event.key==='Enter')addCat()"><button class="btn btn-o" style="flex:0 0 auto" onclick="addCat()">ï¼‹</button></div>
+  <div class="row"><input type="text" id="newCat" placeholder="Nama kategori baru..." onkeydown="if(event.key==='Enter')addCat()"><button class="btn btn-o" style="flex:0 0 auto" onclick="addCat()">＋</button></div>
 </div></div>
 
 <!-- MODAL KONFIRMASI -->
@@ -375,7 +375,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
 });
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();prompt=e;$('installBtn').classList.remove('hide')});
-function installPWA(){if(prompt){prompt.prompt();prompt.userChoice.then(()=>{prompt=null;$('installBtn').classList.add('hide')});}else toast('Gunakan menu browser â†’ "Add to Home Screen"','info')}
+function installPWA(){if(prompt){prompt.prompt();prompt.userChoice.then(()=>{prompt=null;$('installBtn').classList.add('hide')});}else toast('Gunakan menu browser → "Add to Home Screen"','info')}
 
 /* ===== AFF ID ===== */
 function idUI(on,v){$('idDot').className='dot'+(on?' on':'');$('idText').textContent='Affiliate ID: '+(on?'an_'+v:'Belum Diset');$('idHelp').classList.toggle('hide',!on);$('idActive').textContent='an_'+v;}
@@ -405,7 +405,7 @@ function gen(){
   if(!p.shop&&$('mShop').value.trim())p.shop=$('mShop').value.trim().replace(/\D/g,'');
   if(!p.item&&$('mItem').value.trim())p.item=$('mItem').value.trim().replace(/\D/g,'');
   curP=p;
-  if(!p.shop||!p.item){$('output').textContent=u?'âš  Link tidak dikenali. Isi Shop ID & Item ID manual jika shortlink.':'Masukkan link produk Shopee di atas...';
+  if(!p.shop||!p.item){$('output').textContent=u?'⚠ Link tidak dikenali. Isi Shop ID & Item ID manual jika shortlink.':'Masukkan link produk Shopee di atas...';
     $('detected').textContent='Shop: - | Item: -';['btnCopy','btnTest','btnSave'].forEach(b=>$(b).disabled=true);
     $('tagBadge').textContent='utm_content=----';curUrl='';return;}
   $('detected').textContent='Shop ID: '+p.shop+' | Item ID: '+p.item;
@@ -467,7 +467,7 @@ function saveBulk(){if(!bulk.length)return toast('Tidak ada hasil','warning');
 function openCatModal(){renderCats();openM('mCat')}
 function renderCats(){const L=links();
   $('catList').innerHTML=cats().map(c=>{const n=L.filter(l=>l.category===c).length;
-    return '<div style="display:flex;justify-content:space-between;align-items:center;background:#f8fafc;border:1px solid var(--bd);border-radius:9px;padding:8px 11px"><span style="font-size:13px;font-weight:500">'+esc(c)+' <span style="font-size:10px;color:#94a3b8">('+n+' link)</span></span><button class="iconbtn r" onclick="delCat(\''+escq(c)+'\')">ðŸ—‘</button></div>'}).join('')}
+    return '<div style="display:flex;justify-content:space-between;align-items:center;background:#f8fafc;border:1px solid var(--bd);border-radius:9px;padding:8px 11px"><span style="font-size:13px;font-weight:500">'+esc(c)+' <span style="font-size:10px;color:#94a3b8">('+n+' link)</span></span><button class="iconbtn r" onclick="delCat(\''+escq(c)+'\')">🗑</button></div>'}).join('')}
 function addCat(){const v=$('newCat').value.trim();if(!v)return toast('Nama kategori kosong','warning');
   const c=cats();if(c.some(x=>x.toLowerCase()===v.toLowerCase()))return toast('Kategori sudah ada','warning');
   c.push(v);jset(LS.cats,c);$('newCat').value='';renderCats();renderSaved();toast('Kategori ditambahkan','success')}
@@ -495,17 +495,17 @@ function draw(el,items,arch){
   el.innerHTML=items.map(l=>
   '<div class="item"><div class="item-top"><div style="min-width:0">'+
   '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span class="item-title">'+esc(l.title)+'</span><span class="cat">'+esc(l.category||'-')+'</span></div>'+
-  '<p class="meta">Shop: '+esc(l.shopId)+' â€¢ Item: '+esc(l.itemId)+' â€¢ '+fmt(l.createdAt)+'</p></div>'+
+  '<p class="meta">Shop: '+esc(l.shopId)+' • Item: '+esc(l.itemId)+' • '+fmt(l.createdAt)+'</p></div>'+
   '<div class="actions">'+
-  (arch?'<button class="iconbtn g" title="Pulihkan" onclick="unarchiveLink('+l.id+')">â†©</button>'
-       :'<button class="iconbtn a" title="Arsipkan" onclick="archiveLink('+l.id+')">ðŸ“¦</button>')+
-  '<button class="iconbtn" title="Edit" onclick="showEdit('+l.id+')">âœ</button>'+
-  '<button class="iconbtn r" title="Hapus" onclick="deleteLink('+l.id+')">ðŸ—‘</button></div></div>'+
-  (l.note?'<p class="note">ðŸ“ '+esc(l.note)+'</p>':'')+
+  (arch?'<button class="iconbtn g" title="Pulihkan" onclick="unarchiveLink('+l.id+')">↩</button>'
+       :'<button class="iconbtn a" title="Arsipkan" onclick="archiveLink('+l.id+')">📦</button>')+
+  '<button class="iconbtn" title="Edit" onclick="showEdit('+l.id+')">✏</button>'+
+  '<button class="iconbtn r" title="Hapus" onclick="deleteLink('+l.id+')">🗑</button></div></div>'+
+  (l.note?'<p class="note">📝 '+esc(l.note)+'</p>':'')+
   '<div class="urlbox">'+esc(l.url)+'</div>'+
   '<div class="item-bot"><div class="tagchips">'+(l.tags||[]).map(t=>'<span class="chip">'+esc(t)+'</span>').join('')+'</div>'+
-  '<div style="display:flex;gap:6px"><button class="btn btn-o" style="padding:6px 13px;font-size:11.5px" onclick="copy(\''+escq(l.url)+'\')">ðŸ“‹ Salin</button>'+
-  '<button class="btn btn-s" style="padding:6px 10px;font-size:11.5px" onclick="open(\''+escq(l.url)+'\',\'_blank\')">â†—</button></div></div></div>').join('')}
+  '<div style="display:flex;gap:6px"><button class="btn btn-o" style="padding:6px 13px;font-size:11.5px" onclick="copy(\''+escq(l.url)+'\')">📋 Salin</button>'+
+  '<button class="btn btn-s" style="padding:6px 10px;font-size:11.5px" onclick="open(\''+escq(l.url)+'\',\'_blank\')">↗</button></div></div></div>').join('')}
 
 /* ===== EXPORT/IMPORT ===== */
 function dl(content,name,mime){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type:mime}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},100)}
