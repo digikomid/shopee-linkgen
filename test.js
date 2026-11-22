@@ -2,8 +2,7 @@
 const fs = require('fs');
 const src = fs.readFileSync(__dirname + '/dist/worker.js', 'utf8')
   .replace(/^export default/m, 'module.exports.default =');
-fs.writeFileSync(require('os').tmpdir() + '/worker-test.cjs', src);
-const worker = require(require('os').tmpdir() + '/worker-test.cjs').default;
+const worker = new Function('module', src + '\nreturn module.exports.default;')({exports:{}});
 
 const PNG_SIG = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 let pass = 0, fail = 0;
@@ -48,15 +47,35 @@ async function check(name, cond, extra = '') {
   r = await worker.fetch(new Request('https://aturduit.web.id/', { method: 'POST' }));
   await check('POST / → 404', r.status === 404);
 
-  // unit-test parsing logic lifted from app (regex parity check)
-  const parseShopee = s => {
-    let m;
-    if ((m = s.match(/i\.(\d+)\.(\d+)/))) return { shop: m[1], item: m[2] };
-    if ((m = s.match(/universal-link\/product\/(\d+)\/(\d+)/))) return { shop: m[1], item: m[2] };
-    if ((m = s.match(/product\/(\d+)\/(\d+)/))) return { shop: m[1], item: m[2] };
-    const ms = s.match(/shopid=(\d+)/i), mi = s.match(/[?&]itemid=(\d+)/i);
-    return ms && mi ? { shop: ms[1], item: mi[1] } : { shop: '', item: '' };
-  };
+  // Exercise the actual parser from the served app, not a duplicate.
+  const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+  const {parseShopee, shortToken} = new Function('document', 'addEventListener', script + '\nreturn {parseShopee,shortToken};')({addEventListener(){}}, () => {});
+  const resolver = '/api/resolve?token=';
+  const nativeFetch = globalThis.fetch;
+  const seen = [];
+  let upstream = () => new Response(null, {status:301, headers:{location:'https://shopee.co.id/opaanlp/516321247/57368594802?utm_source=an_old'}});
+  globalThis.fetch = async (url, options) => { seen.push({url, options}); return upstream(url); };
+  try {
+    r = await get(resolver+'8fU7mHeCPv');
+    const ids = await r.json();
+    check('shortlink -> only the two product IDs', r.status === 200 && JSON.stringify(ids) === '{"shop":"516321247","item":"57368594802"}');
+    check('uses fixed HTTPS origin and manual redirect', seen.length === 1 && seen[0].url === 'https://s.shopee.co.id/8fU7mHeCPv' && seen[0].options.redirect === 'manual');
+    check('sends browser request headers without cache', seen[0].options.cache === 'no-store' && seen[0].options.headers['user-agent'].includes('Chrome/') && seen[0].options.headers.accept.includes('text/html'));
+    check('resolver response is not cached', r.headers.get('cache-control') === 'no-store');
+    r = await get(resolver+encodeURIComponent('https://example.com/'));
+    check('rejects malformed token before fetching', r.status === 400 && seen.length === 1);
+    upstream = () => new Response(null, {status:302, headers:{location:'https://example.com/product/11/22'}});
+    r = await get(resolver+'abc');
+    check('external redirect is not followed or parsed', r.status === 422 && seen.length === 2);
+    upstream = url => new Response(null, {status:302, headers:{location:url.endsWith('/abc')?'/def':'https://shopee.co.id/product/11/22'}});
+    r = await get(resolver+'abc');
+    check('relative shortlink hop resolves', r.status === 200 && (await r.json()).item === '22' && seen.at(-1).url === 'https://s.shopee.co.id/def');
+    upstream = () => new Response(null, {status:403});
+    r = await get(resolver+'abc');
+    check('upstream block has its own error', r.status === 502 && (await r.json()).error === 'shopee_unavailable');
+  } finally { globalThis.fetch = nativeFetch; }
+  check('recognizes a shortlink with extra query', shortToken('https://s.shopee.co.id/8fU7mHeCPv?x=1') === '8fU7mHeCPv');
+  check('rejects lookalike as a shortlink', !shortToken('https://s.shopee.co.id.example.com/8fU7mHeCPv'));
   const cases = [
     ['https://shopee.co.id/Lemari-Sepatu-i.214693299.29866829394', { shop: '214693299', item: '29866829394' }],
     ['https://shopee.co.id/product/111/222', { shop: '111', item: '222' }],

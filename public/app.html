@@ -158,12 +158,12 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
 
   <!-- GENERATE -->
   <div class="pane" id="tp-single">
-    <label>1. Tempel Link Produk Shopee <span style="color:var(--o)">*</span></label>
-    <input type="text" id="productUrl" inputmode="url" oninput="gen()" placeholder="https://shopee.co.id/Nama-Produk-i.214693299.29866829394">
-    <p class="hint">Mendukung format <code>i.ShopID.ItemID</code>, <code>/product/ID/ID</code>, <code>?shopid=&amp;itemid=</code>, atau isi manual di bawah.</p>
+    <label for="productUrl">1. Tempel Link Produk Shopee <span style="color:var(--o)">*</span></label>
+    <input type="text" id="productUrl" inputmode="url" oninput="gen()" aria-describedby="productHint" placeholder="https://s.shopee.co.id/…">
+    <p class="hint" id="productHint">Link produk dan shortlink <code>s.shopee.co.id</code> terdeteksi otomatis. Shortlink perlu koneksi internet.</p>
 
     <details style="margin-top:12px">
-      <summary>⚙ Input Manual Shop ID &amp; Item ID (untuk shortlink)</summary>
+      <summary>Input Manual Shop ID &amp; Item ID</summary>
       <div class="row" style="margin-top:10px">
         <div><label style="font-size:11.5px">Shop ID</label><input type="text" id="mShop" inputmode="numeric" oninput="gen()" placeholder="214693299" class="mono"></div>
         <div><label style="font-size:11.5px">Item ID</label><input type="text" id="mItem" inputmode="numeric" oninput="gen()" placeholder="29866829394" class="mono"></div>
@@ -202,7 +202,7 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
 
     <div class="out" style="margin-top:16px">
       <div class="outhead"><b>🔗 Hasil Link Affiliate</b><span class="mono" id="detected" style="font-size:10.5px;color:#94a3b8">Shop: - | Item: -</span></div>
-      <div class="linkbox" id="output">Masukkan link produk Shopee di atas...</div>
+      <div class="linkbox" id="output" role="status">Masukkan link produk Shopee di atas...</div>
       <div class="outfoot">
         <span class="badge-dark" id="tagBadge">utm_content=----</span>
         <div style="display:flex;gap:7px;flex-wrap:wrap">
@@ -223,7 +223,7 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
       <div><label style="font-size:11.5px">Global Tag 1</label><input id="bT1" placeholder="igreels" class="mono"></div>
       <div><label style="font-size:11.5px">Global Tag 2</label><input id="bT2" placeholder="promonop" class="mono"></div>
       <div><label style="font-size:11.5px">Global Tag 3</label><input id="bT3" class="mono"></div>
-      <div style="display:flex;align-items:flex-end"><button onclick="processBulk()" class="btn btn-o" style="width:100%">⚙ Proses Semua</button></div>
+      <div style="display:flex;align-items:flex-end"><button id="bulkRun" onclick="processBulk()" class="btn btn-o" style="width:100%">⚙ Proses Semua</button></div>
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin:14px 0 9px">
       <b style="font-size:13.5px">Hasil (<span id="bCount">0</span> Link)</b>
@@ -233,6 +233,7 @@ footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:ce
         <button onclick="saveBulk()" class="btn btn-o">🔖 Simpan Semua</button>
       </div>
     </div>
+    <p class="hint" id="bulkStatus" role="status"></p>
     <div class="tblwrap">
       <table>
         <thead><tr><th style="width:36px;text-align:center">#</th><th>Shop / Item</th><th>Taglink</th><th>Affiliate Link</th><th style="text-align:center">Aksi</th></tr></thead>
@@ -387,12 +388,19 @@ function saveAffId(){let v=$('affiliateIdInput').value.trim();if(!v)return toast
 function scrollToSettings(){$('settingsSection').scrollIntoView({behavior:'smooth'});$('affiliateIdInput').focus()}
 
 /* ===== PARSE ===== */
-function parseShopee(s){if(!s)return{shop:'',item:''};let m;
-  if((m=s.match(/i\.(\d+)\.(\d+)/)))return{shop:m[1],item:m[2]};
-  if((m=s.match(/universal-link\/product\/(\d+)\/(\d+)/)))return{shop:m[1],item:m[2]};
-  if((m=s.match(/product\/(\d+)\/(\d+)/)))return{shop:m[1],item:m[2]};
-  const ms=s.match(/shopid=(\d+)/i),mi=s.match(/[?&]itemid=(\d+)/i);
-  return ms&&mi?{shop:ms[1],item:mi[1]}:{shop:'',item:''};}
+function parseShopee(source){
+  try{
+    const url=new URL(source);
+    if((url.origin==='https://shopee.co.id'||url.origin==='https://www.shopee.co.id')&&!url.username&&!url.password){
+      const match=url.pathname.match(/^\/(?:universal-link\/product|product|opaanlp)\/(\d+)\/(\d+)\/?$/)||url.pathname.match(/(?:^|[-/])i\.(\d+)\.(\d+)\/?$/);
+      const params=new Map(Array.from(url.searchParams,([key,value])=>[key.toLowerCase(),value]));
+      const shop=match?.[1]??params.get('shopid'),item=match?.[2]??params.get('itemid');
+      if(validId(shop)&&validId(item))return{shop,item};
+    }
+  }catch{}
+  return{shop:'',item:''};
+}
+const validId=value=>typeof value==='string'&&/^\d{1,24}$/.test(value);
 
 /* ===== SINGLE ===== */
 const sanitize=v=>v.replace(/[\s-]+/g,'').replace(/[^a-zA-Z0-9_]/g,'');
@@ -400,12 +408,55 @@ function san(el){const c=sanitize(el.value);if(c!==el.value)el.value=c;gen();}
 function preset(v){$('t1').value=v;gen();toast('Tag 1 = '+v,'info')}
 function clearTags(){for(let i=1;i<=5;i++)$('t'+i).value='';gen()}
 function tags(){return[1,2,3,4,5].map(i=>sanitize($('t'+i).value))}
+function shortToken(value){
+  try {
+    const url=new URL(value);
+    if(url.origin==='https://s.shopee.co.id'&&!url.username&&!url.password){
+      return url.pathname.match(/^\/([a-zA-Z0-9]{1,64})\/?$/)?.[1]||'';
+    }
+  } catch {}
+  return '';
+}
+async function fetchProductIds(token,controller=new AbortController()){
+  const timer=setTimeout(()=>controller.abort(),8000);
+  try{
+    const response=await fetch('/api/resolve?token='+encodeURIComponent(token),{signal:controller.signal,cache:'no-store'});
+    if(!response.ok)throw new Error(response.status===422?'product_not_found':'unavailable');
+    const ids=await response.json();
+    if(!validId(ids.shop)||!validId(ids.item))throw new Error('unavailable');
+    return ids;
+  }finally{clearTimeout(timer)}
+}
+let singleLookup=null;
+function checkSingle(token){
+  if(singleLookup?.token===token) return;
+  cancelSingleLookup();
+  const job={token,controller:new AbortController(),message:'Sedang memeriksa shortlink Shopee…'};
+  singleLookup=job;
+  job.timer=setTimeout(async()=>{
+    try{job.ids=await fetchProductIds(token,job.controller);}
+    catch(error){job.message=error.message==='product_not_found'
+      ?'Shortlink ini tidak mengarah ke produk yang dikenali. Coba link produk lengkap atau isi ID secara manual.'
+      :'Shortlink belum bisa diperiksa. Cek koneksi, lalu coba tempel ulang atau isi ID secara manual.';}
+    if(singleLookup===job)gen();
+  },250);
+}
+function cancelSingleLookup(){
+  if(!singleLookup)return;
+  clearTimeout(singleLookup.timer);
+  singleLookup.controller.abort();
+  singleLookup=null;
+}
 function gen(){
-  const u=$('productUrl').value.trim();let p=parseShopee(u);
-  if(!p.shop&&$('mShop').value.trim())p.shop=$('mShop').value.trim().replace(/\D/g,'');
-  if(!p.item&&$('mItem').value.trim())p.item=$('mItem').value.trim().replace(/\D/g,'');
+  const u=$('productUrl').value.trim(),token=shortToken(u);
+  let p=token?{shop:'',item:''}:parseShopee(u);
+  const manualShop=$('mShop').value.trim(),manualItem=$('mItem').value.trim();
+  // Gunakan pasangan manual lengkap sebagai cadangan, bukan mencampur ID dengan hasil redirect.
+  if(!p.shop&&!p.item&&/^\d+$/.test(manualShop)&&/^\d+$/.test(manualItem))p={shop:manualShop,item:manualItem};
+  if(token&&!p.shop){checkSingle(token);p=singleLookup.ids||p;}
+  else cancelSingleLookup();
   curP=p;
-  if(!p.shop||!p.item){$('output').textContent=u?'⚠ Link tidak dikenali. Isi Shop ID & Item ID manual jika shortlink.':'Masukkan link produk Shopee di atas...';
+  if(!p.shop||!p.item){$('output').textContent=token?singleLookup.message:u?'Link tidak dikenali. Tempel link produk Shopee atau isi ID secara manual.':'Masukkan link produk Shopee di atas...';
     $('detected').textContent='Shop: - | Item: -';['btnCopy','btnTest','btnSave'].forEach(b=>$(b).disabled=true);
     $('tagBadge').textContent='utm_content=----';curUrl='';return;}
   $('detected').textContent='Shop ID: '+p.shop+' | Item ID: '+p.item;
@@ -424,8 +475,11 @@ function testOpen(){if(curUrl)open(curUrl,'_blank')}
 function fillCat(sel){$(sel).innerHTML=cats().map(c=>'<option>'+esc(c)+'</option>').join('')}
 function showSave(){if(!curUrl)return toast('Belum ada link','warning');
   fillCat('sCat');
-  const m=$('productUrl').value.match(/shopee\.co\.id\/(.+?)(?:-i\.\d+\.\d+)?(?:\?|$)/);
-  $('sTitle').value=m&&m[1]?decodeURIComponent(m[1]).replace(/-/g,' ').slice(0,80):'Item '+curP.item;
+  const source=$('productUrl').value;
+  const m=source.match(/shopee\.co\.id\/([^/?#]+)-i\.\d+\.\d+(?:[?#]|$)/);
+  let title='Item '+curP.item;
+  if(m){try{title=decodeURIComponent(m[1]).replace(/-/g,' ').slice(0,80)}catch{}}
+  $('sTitle').value=title;
   $('sNote').value='';openM('mSave');}
 function doSave(){const t=$('sTitle').value.trim();if(!t)return toast('Nama wajib diisi','warning');
   const L=links();if(L.some(l=>l.url===curUrl))return toast('Link sudah pernah disimpan','warning');
@@ -443,15 +497,28 @@ function confirmA(t,msg,fn){$('cTitle').textContent=t;$('cMsg').textContent=msg;
   const b=$('cOk'),c=b.cloneNode(true);b.replaceWith(c);c.onclick=()=>{fn();closeM('mConfirm')};openM('mConfirm')}
 
 /* ===== BULK ===== */
-function processBulk(){const raw=$('bulkIn').value.trim();if(!raw)return toast('Tempel daftar URL dulu','warning');
-  const g=[1,2,3].map(i=>sanitize($('bT'+i).value)),id=affId||'YOUR_AFFILIATE_ID';bulk=[];
-  raw.split('\n').forEach(line=>{const t=line.trim();if(!t)return;
-    const parts=t.split('|').map(p=>p.trim()),p=parseShopee(parts[0]);
-    if(!p.shop||!p.item)return;
-    const tg=[parts[1]?sanitize(parts[1]):g[0],parts[2]?sanitize(parts[2]):g[1],parts[3]?sanitize(parts[3]):g[2],'',''];
-    const ts=tg.join('-');
-    bulk.push({shop:p.shop,item:p.item,tag1:tg[0],tag2:tg[1],url:'https://shopee.co.id/universal-link/product/'+p.shop+'/'+p.item+'?utm_source=an_'+id+'&utm_medium=affiliates&utm_campaign=-&utm_content='+ts});});
-  renderBulk();toast(bulk.length+' link diproses',bulk.length?'success':'warning')}
+async function processBulk(){const raw=$('bulkIn').value;if(!raw.trim())return toast('Tempel daftar URL dulu','warning');
+  const button=$('bulkRun');if(button.disabled)return;
+  const label=button.textContent;
+  button.disabled=true;button.textContent='Memproses…';$('bulkStatus').textContent='Memeriksa daftar link…';
+  const g=[1,2,3].map(i=>sanitize($('bT'+i).value)),id=affId||'YOUR_AFFILIATE_ID';
+  const results=[],failed=[],resolved=new Map();
+  try{
+    for(const [i,line] of raw.split('\n').entries()){
+      if(!line.trim())continue;
+      const parts=line.split('|').map(p=>p.trim()),source=parts[0],token=shortToken(source);
+      if(token&&!resolved.has(token)){
+        try{resolved.set(token,await fetchProductIds(token))}catch{resolved.set(token,null)}
+      }
+      const p=token?resolved.get(token):parseShopee(source);
+      if(!p?.shop||!p.item){failed.push(i+1);continue}
+      const tg=[parts[1]?sanitize(parts[1]):g[0],parts[2]?sanitize(parts[2]):g[1],parts[3]?sanitize(parts[3]):g[2],'',''];
+      results.push({shop:p.shop,item:p.item,tag1:tg[0],tag2:tg[1],url:'https://shopee.co.id/universal-link/product/'+p.shop+'/'+p.item+'?utm_source=an_'+id+'&utm_medium=affiliates&utm_campaign=-&utm_content='+tg.join('-')});
+    }
+    bulk=results;renderBulk();
+    $('bulkStatus').textContent=failed.length?`${results.length} berhasil. ${failed.length} gagal (baris ${failed.slice(0,10).join(', ')}${failed.length>10?', …':''}).`:`${results.length} link diproses.`;
+  }finally{button.disabled=false;button.textContent=label}
+}
 function renderBulk(){const b=$('bBody');$('bCount').textContent=bulk.length;
   if(!bulk.length){b.innerHTML='<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:22px">Tidak ada link valid.</td></tr>';return}
   b.innerHTML=bulk.map((r,i)=>'<tr><td style="text-align:center;color:#94a3b8">'+(i+1)+'</td><td class="mono" style="font-size:11px"><b>'+r.shop+'</b> / '+r.item+'</td><td><span style="background:#ffedd5;color:var(--o);border-radius:6px;padding:2px 6px;font-size:10.5px">'+esc(r.tag1||'-')+'</span> '+(r.tag2?'<span class="chip" style="margin-left:4px">'+esc(r.tag2)+'</span>':'')+'</td><td class="mono" style="font-size:10.5px;word-break:break-all;max-width:260px;color:#475569">'+esc(r.url)+'</td><td style="text-align:center"><button class="btn btn-o" style="padding:5px 10px;font-size:11px" onclick="copy(bulk['+i+'].url)">Salin</button></td></tr>').join('')}
