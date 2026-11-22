@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Shopee Link Generator — AturDuit</title>
+<meta name="description" content="Generate & kelola link affiliate Shopee bertaglink. Klasifikasi, arsip, penyimpanan lokal.">
+<meta name="theme-color" content="#EE4D2D">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="icon" type="image/png" href="/icon-192.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--o:#EE4D2D;--oh:#d73d1f;--ol:#FFF5F1;--g:#059669;--gh:#047857;--r:#e11d48;--txt:#1e293b;--mut:#64748b;--bd:#e2e8f0;--bg:#f8fafc;--card:#fff}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;display:flex;flex-direction:column;line-height:1.5;padding-bottom:env(safe-area-inset-bottom)}
+input,textarea,select,button{font-family:inherit}
+input,textarea,select{font-size:16px;border:1px solid var(--bd);border-radius:10px;padding:9px 12px;width:100%;background:#fff;outline:none;transition:border .15s}
+input:focus,textarea:focus,select:focus{border-color:var(--o);box-shadow:0 0 0 3px rgba(238,77,45,.15)}
+button{cursor:pointer;border:none;font-weight:600}
+.btn{padding:9px 16px;border-radius:10px;font-size:13px;display:inline-flex;align-items:center;gap:6px;justify-content:center;transition:filter .15s,transform .1s}
+.btn:active{transform:scale(.96)}
+.btn-o{background:var(--o);color:#fff}.btn-o:hover{background:var(--oh)}
+.btn-g{background:var(--g);color:#fff}.btn-g:hover{background:var(--gh)}
+.btn-d{background:var(--r);color:#fff}.btn-d:hover{background:#be123c}
+.btn-s{background:#f1f5f9;color:var(--txt)}.btn-s:hover{background:#e2e8f0}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.wrap{max-width:900px;width:100%;margin:0 auto;padding:0 14px}
+/* header */
+header{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:30;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-ic{width:38px;height:38px;border-radius:11px;background:var(--o);color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;flex-shrink:0}
+.logo h1{font-size:16px;line-height:1.2}
+.logo p{font-size:11px;color:var(--mut)}
+.idbadge{display:flex;align-items:center;gap:6px;background:#f1f5f9;border:1px solid var(--bd);border-radius:9px;padding:5px 10px;font-size:11.5px}
+.dot{width:8px;height:8px;border-radius:50%;background:#94a3b8}
+.dot.on{background:#10b981;animation:pulse 1.5s infinite}
+@keyframes pulse{50%{opacity:.4}}
+main{flex:1;padding:16px 0 24px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.card h2{font-size:15px;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+label{font-size:13px;font-weight:600;display:block;margin-bottom:5px}
+.hint{font-size:11.5px;color:var(--mut);margin-top:5px}
+code{background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:11px;font-family:ui-monospace,Consolas,monospace}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1;min-width:150px}
+/* tabs */
+.tabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--bd);background:#fff;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:12px 14px;font-size:13px;background:none;color:var(--mut);border-bottom:2px solid transparent;white-space:nowrap;font-weight:500}
+.tab.on{border-color:var(--o);color:var(--o);font-weight:700}
+.pane{padding:16px}
+.pane.hide{display:none}
+/* misc */
+details{background:#f8fafc;border:1px solid var(--bd);border-radius:12px;padding:12px}
+summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--mut);user-select:none}
+.presets{display:flex;flex-wrap:wrap;gap:6px;background:var(--ol);border:1px solid #fed7aa;border-radius:12px;padding:10px;align-items:center;margin-bottom:12px}
+.preset{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:4px 10px;font-size:12px;color:var(--txt)}
+.preset:hover{background:var(--o);color:#fff;border-color:var(--o)}
+.grid5{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.out{background:#0f172a;border-radius:16px;padding:16px;color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.outhead{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid #1e293b;padding-bottom:10px;margin-bottom:12px;flex-wrap:wrap}
+.outhead b{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8}
+.linkbox{background:#020617;border:1px solid #1e293b;border-radius:12px;padding:12px;font-family:ui-monospace,Consolas,monospace;font-size:12px;color:#fdba74;word-break:break-all;min-height:48px;display:flex;align-items:center;user-select:all}
+.outfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.badge-dark{background:#1e293b;color:#cbd5e1;padding:4px 9px;border-radius:8px;font-family:ui-monospace,monospace;font-size:10.5px;word-break:break-all}
+/* list items */
+.item{background:#fff;border:1px solid var(--bd);border-radius:14px;padding:13px;transition:border .15s}
+.item:hover{border-color:#fdba74}
+.item-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.item-title{font-weight:700;font-size:13.5px;word-break:break-word}
+.cat{background:#ffedd5;color:var(--o);padding:2px 8px;border-radius:99px;font-size:10px;font-weight:600}
+.meta{font-size:11px;color:var(--mut);margin-top:2px}
+.note{font-size:12px;color:var(--mut);font-style:italic;margin-top:5px}
+.urlbox{font-family:ui-monospace,Consolas,monospace;font-size:10.5px;color:#475569;background:#f8fafc;border:1px solid #f1f5f9;border-radius:8px;padding:8px;word-break:break-all;margin-top:8px}
+.item-bot{display:flex;justify-content:space-between;align-items:center;margin-top:9px;gap:8px;flex-wrap:wrap}
+.tagchips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{background:#f1f5f9;color:var(--mut);font-family:ui-monospace,monospace;font-size:10px;padding:2px 7px;border-radius:6px}
+.iconbtn{width:32px;height:32px;border-radius:9px;background:#f1f5f9;color:var(--mut);font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+.iconbtn:hover{background:#e2e8f0}
+.iconbtn.a:hover{background:#ffedd5;color:var(--o)}
+.iconbtn.r:hover{background:#ffe4e6;color:var(--r)}
+.iconbtn.g{background:#ecfdf5;color:var(--g)}
+.iconbtn.g:hover{background:#d1fae5}
+.actions{display:flex;gap:5px;flex-shrink:0}
+.list{display:flex;flex-direction:column;gap:9px}
+.empty{padding:28px;text-align:center;color:#94a3b8;background:#f8fafc;border:1px dashed var(--bd);border-radius:12px;font-size:12.5px}
+/* filter */
+.filterbar{background:#f8fafc;border:1px solid var(--bd);border-radius:12px;padding:11px;display:flex;flex-direction:column;gap:9px}
+.frow{display:flex;gap:8px;flex-wrap:wrap}
+.frow input,.frow select{flex:1;min-width:130px;font-size:13px;padding:8px 10px}
+.chipbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.fchip{background:#fff;border:1px solid var(--bd);color:var(--mut);border-radius:99px;padding:3px 11px;font-size:11px;font-weight:600}
+.fchip.on{background:var(--o);border-color:var(--o);color:#fff}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:50;display:none;align-items:center;justify-content:center;padding:14px}
+.modal.open{display:flex}
+.mbox{background:#fff;border-radius:18px;width:100%;max-width:420px;padding:18px;box-shadow:0 20px 50px rgba(0,0,0,.25);max-height:90vh;overflow-y:auto}
+.mbox h3{font-size:15px;display:flex;align-items:center;gap:7px}
+.mclose{margin-left:auto;background:none;color:#94a3b8;font-size:17px}
+.mhead{display:flex;align-items:center;margin-bottom:14px}
+.mbox .field{margin-bottom:12px}
+/* toast */
+#toasts{position:fixed;top:14px;left:14px;right:14px;z-index:70;display:flex;flex-direction:column;gap:8px;align-items:flex-end;pointer-events:none}
+.toast{background:#0f172a;color:#fff;border-left:4px solid #38bdf8;padding:10px 15px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.25);font-size:12.5px;font-weight:500;opacity:0;transform:translateY(-8px);transition:all .3s;max-width:100%}
+.toast.in{opacity:1;transform:none}
+.toast.success{border-color:#34d399}.toast.warning{border-color:#fbbf24}.toast.error{border-color:#fb7185}
+/* table bulk */
+.tblwrap{border:1px solid var(--bd);border-radius:12px;overflow:auto;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:560px}
+th{background:#f1f5f9;text-align:left;padding:9px;font-size:11.5px;color:#334155}
+td{padding:9px;border-top:1px solid #f1f5f9;vertical-align:top}
+.guide{font-size:13px;color:#334155;line-height:1.65}
+.guide .box{border:1px solid var(--bd);border-radius:12px;padding:13px;margin-bottom:12px;background:#fff}
+.guide h4{font-size:12px;text-transform:uppercase;color:var(--o);letter-spacing:.05em;margin-bottom:8px}
+footer{background:#fff;border-top:1px solid var(--bd);padding:12px;text-align:center;font-size:11.5px;color:var(--mut)}
+.mono{font-family:ui-monospace,Consolas,monospace}
+@media(min-width:640px){input,textarea,select{font-size:inherit}}
+</style>
+</head>
+<body>
+<div id="toasts"></div>
+
+<header><div class="wrap hrow">
+  <div class="logo">
+    <div class="logo-ic">⛓</div>
+    <div><h1>Shopee Link Generator</h1><p>Generate &amp; kelola link affiliate Shopee</p></div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <div class="idbadge"><span class="dot" id="idDot"></span><span id="idText">Affiliate ID: Belum Diset</span><button onclick="scrollToSettings()" style="background:none;color:var(--o);font-size:11.5px;font-weight:700">Ubah</button></div>
+    <button onclick="installPWA()" id="installBtn" class="btn btn-o hide" style="padding:7px 12px;font-size:12px">⬇ Install App</button>
+  </div>
+</div></header>
+
+<main class="wrap">
+
+<!-- SETTINGS -->
+<section id="settingsSection" class="card">
+  <h2>🪪 Pengaturan Affiliate ID <span style="margin-left:auto;font-size:10.5px;font-weight:500;color:var(--o);background:var(--ol);padding:3px 8px;border-radius:7px;border:1px solid #fed7aa">Cukup diset 1x</span></h2>
+  <p class="hint" style="margin:0 0 10px">Masukkan ID Affiliate (angka saja) ATAU paste link affiliate lama untuk otomatis diekstrak. Data tersimpan di perangkat Anda.</p>
+  <div class="row">
+    <input type="text" id="affiliateIdInput" placeholder="Contoh: 11301234567 atau paste link affiliate Anda...">
+    <button onclick="saveAffiliateId()" class="btn btn-o" style="flex:0 0 auto">💾 Simpan ID</button>
+  </div>
+  <p class="hint hide" id="idHelp">✅ ID Aktif: <b class="mono" id="idActive"></b></p>
+</section>
+
+<!-- TABS -->
+<section class="card" style="padding:0;overflow:hidden">
+  <div class="tabs">
+    <button class="tab on" id="tb-single" onclick="switchTab('single')">⚡ Generate</button>
+    <button class="tab" id="tb-bulk" onclick="switchTab('bulk')">📋 Bulk</button>
+    <button class="tab" id="tb-history" onclick="switchTab('history')">🗂 Tersimpan (<span id="nSaved">0</span>)</button>
+    <button class="tab" id="tb-archive" onclick="switchTab('archive')">📦 Arsip (<span id="nArch">0</span>)</button>
+    <button class="tab" id="tb-guide" onclick="switchTab('guide')">❓ Panduan</button>
+  </div>
+
+  <!-- GENERATE -->
+  <div class="pane" id="tp-single">
+    <label>1. Tempel Link Produk Shopee <span style="color:var(--o)">*</span></label>
+    <input type="text" id="productUrl" inputmode="url" oninput="gen()" placeholder="https://shopee.co.id/Nama-Produk-i.214693299.29866829394">
+    <p class="hint">Mendukung format <code>i.ShopID.ItemID</code>, <code>/product/ID/ID</code>, <code>?shopid=&amp;itemid=</code>, atau isi manual di bawah.</p>
+
+    <details style="margin-top:12px">
+      <summary>⚙ Input Manual Shop ID &amp; Item ID (untuk shortlink)</summary>
+      <div class="row" style="margin-top:10px">
+        <div><label style="font-size:11.5px">Shop ID</label><input type="text" id="mShop" inputmode="numeric" oninput="gen()" placeholder="214693299" class="mono"></div>
+        <div><label style="font-size:11.5px">Item ID</label><input type="text" id="mItem" inputmode="numeric" oninput="gen()" placeholder="29866829394" class="mono"></div>
+      </div>
+    </details>
+
+    <div style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <label style="margin:0">2. Parameter Taglink (1–5)</label>
+        <button onclick="clearTags()" class="btn btn-s" style="padding:5px 10px;font-size:11.5px">↺ Kosongkan</button>
+      </div>
+      <div class="presets">
+        <span style="font-size:11.5px;font-weight:700;color:#475569">⚡ Preset Tag 1:</span>
+        <button class="preset" onclick="preset('igreels')">igreels</button>
+        <button class="preset" onclick="preset('fbreels')">fbreels</button>
+        <button class="preset" onclick="preset('shopeevideo')">shopeevideo</button>
+        <button class="preset" onclick="preset('tiktok')">tiktok</button>
+        <button class="preset" onclick="preset('igstory')">igstory</button>
+        <button class="preset" onclick="preset('linkinbio')">linkinbio</button>
+      </div>
+      <div class="grid5">
+        <div><label style="font-size:11.5px">Tag_link 1 (Kanal)</label><input id="t1" oninput="san(this)" placeholder="igreels" class="mono"></div>
+        <div><label style="font-size:11.5px">Tag_link 2 (Produk)</label><input id="t2" oninput="san(this)" placeholder="lemsepatu1" class="mono"></div>
+        <div><label style="font-size:11.5px">Tag_link 3</label><input id="t3" oninput="san(this)" placeholder="batch1" class="mono"></div>
+        <div><label style="font-size:11.5px">Tag_link 4</label><input id="t4" oninput="san(this)" placeholder="promo" class="mono"></div>
+        <div><label style="font-size:11.5px">Tag_link 5</label><input id="t5" oninput="san(this)" placeholder="nov2026" class="mono"></div>
+      </div>
+      <p class="hint">Spasi &amp; tanda strip otomatis dibersihkan agar tidak merusak pemisah tag Shopee.</p>
+    </div>
+
+    <div style="display:flex;gap:16px;flex-wrap:wrap;background:#f8fafc;border:1px solid var(--bd);border-radius:12px;padding:10px;margin-top:14px;font-size:12.5px">
+      <b>Format URL:</b>
+      <label style="display:flex;align-items:center;gap:5px;margin:0;font-weight:500"><input type="radio" name="urlType" value="universal" checked onchange="gen()" style="width:auto;accent-color:var(--o)"> Universal Link (Rekomendasi)</label>
+      <label style="display:flex;align-items:center;gap:5px;margin:0;font-weight:500"><input type="radio" name="urlType" value="direct" onchange="gen()" style="width:auto;accent-color:var(--o)"> Direct Product Link</label>
+    </div>
+
+    <div class="out" style="margin-top:16px">
+      <div class="outhead"><b>🔗 Hasil Link Affiliate</b><span class="mono" id="detected" style="font-size:10.5px;color:#94a3b8">Shop: - | Item: -</span></div>
+      <div class="linkbox" id="output">Masukkan link produk Shopee di atas...</div>
+      <div class="outfoot">
+        <span class="badge-dark" id="tagBadge">utm_content=----</span>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <button onclick="testOpen()" id="btnTest" class="btn btn-s" disabled style="background:#1e293b;color:#e2e8f0">↗ Tes Buka</button>
+          <button onclick="copyResult()" id="btnCopy" class="btn btn-o" disabled>📋 <span id="btnCopyTxt">Salin Link</span></button>
+          <button onclick="showSave()" id="btnSave" class="btn btn-g" disabled>🔖 Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BULK -->
+  <div class="pane hide" id="tp-bulk">
+    <label>Daftar Link Massal (satu URL per baris)</label>
+    <p class="hint" style="margin-bottom:6px">Format opsional: <code>URL | tag1 | tag2 | tag3</code></p>
+    <textarea id="bulkIn" rows="6" placeholder="https://shopee.co.id/Produk-A-i.12345.67890 | igreels | lemsepatu1&#10;https://shopee.co.id/product/1111/2222" class="mono" style="font-size:12px"></textarea>
+    <div class="row" style="margin-top:12px;background:#f8fafc;border:1px solid var(--bd);border-radius:12px;padding:12px">
+      <div><label style="font-size:11.5px">Global Tag 1</label><input id="bT1" placeholder="igreels" class="mono"></div>
+      <div><label style="font-size:11.5px">Global Tag 2</label><input id="bT2" placeholder="promonop" class="mono"></div>
+      <div><label style="font-size:11.5px">Global Tag 3</label><input id="bT3" class="mono"></div>
+      <div style="display:flex;align-items:flex-end"><button onclick="processBulk()" class="btn btn-o" style="width:100%">⚙ Proses Semua</button></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin:14px 0 9px">
+      <b style="font-size:13.5px">Hasil (<span id="bCount">0</span> Link)</b>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button onclick="copyAllBulk()" class="btn btn-s">📋 Salin Semua</button>
+        <button onclick="dlBulkCSV()" class="btn btn-g">📄 Unduh CSV</button>
+        <button onclick="saveBulk()" class="btn btn-o">🔖 Simpan Semua</button>
+      </div>
+    </div>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th style="width:36px;text-align:center">#</th><th>Shop / Item</th><th>Taglink</th><th>Affiliate Link</th><th style="text-align:center">Aksi</th></tr></thead>
+        <tbody id="bBody"><tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:22px">Belum ada data. Tempel link dan klik "Proses Semua".</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TERSIMPAN -->
+  <div class="pane hide" id="tp-history">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+      <div><b style="font-size:14px">🗂 Link Tersimpan</b><p class="hint" style="margin:0">Tanpa batas jumlah • tersimpan lokal di perangkat ini</p></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button onclick="expJSON()" class="btn btn-s">⬇ Backup JSON</button>
+        <button onclick="expCSV()" class="btn btn-s">📄 CSV</button>
+        <label class="btn btn-s" style="cursor:pointer">⬆ Restore<input type="file" id="impFile" accept=".json" style="display:none" onchange="impJSON(event)"></label>
+      </div>
+    </div>
+    <div class="filterbar">
+      <div class="frow">
+        <input type="text" id="fSearch" oninput="renderSaved()" placeholder="🔍 Cari nama, URL, ID, tag, catatan...">
+        <select id="fCat" onchange="renderSaved()"></select>
+        <select id="fSort" onchange="renderSaved()">
+          <option value="new">Terbaru</option><option value="old">Terlama</option><option value="name">Nama A-Z</option>
+        </select>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
+        <div class="chipbar" id="catChips"></div>
+        <button onclick="openCatModal()" class="btn btn-s" style="padding:4px 10px;font-size:11.5px">🏷 Kelola Kategori</button>
+      </div>
+    </div>
+    <div class="list" id="savedList" style="margin-top:12px"></div>
+  </div>
+
+  <!-- ARSIP -->
+  <div class="pane hide" id="tp-archive">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+      <div><b style="font-size:14px">📦 Link Terarsip</b><p class="hint" style="margin:0">Tidak tampil di daftar utama, tetap bisa dicari &amp; dipulihkan</p></div>
+      <button onclick="expArchCSV()" class="btn btn-s">📄 Unduh CSV Arsip</button>
+    </div>
+    <input type="text" id="aSearch" oninput="renderArch()" placeholder="🔍 Cari di arsip...">
+    <div class="list" id="archList" style="margin-top:12px"></div>
+  </div>
+
+  <!-- PANDUAN -->
+  <div class="pane hide guide" id="tp-guide">
+    <div class="box" style="background:var(--ol);border-color:#fed7aa">
+      <h4 style="color:var(--txt)">💡 Memahami 5 Parameter Taglink Shopee</h4>
+      Parameter <code style="background:#fff">utm_content</code> dipisah tanda strip (<b style="color:var(--o)">-</b>) membagi data komisi ke 5 kolom laporan CSV: <b>Tag_link1</b>–<b>Tag_link5</b>.
+    </div>
+    <div class="box">
+      <h4>Struktur URL</h4>
+      <code class="mono" style="display:block;background:#0f172a;color:#fdba74;padding:11px;border-radius:9px;font-size:11.5px;word-break:break-all">...&amp;utm_content=TAG1-TAG2-TAG3-TAG4-TAG5</code>
+      <p class="hint" style="margin-top:8px">Contoh: <code>utm_content=igreels-lemsepatu1----</code> → Tag1=igreels, Tag2=lemsepatu1, Tag3–5 kosong.</p>
+    </div>
+    <div class="box">
+      <h4>Tips Penamaan Tag</h4>
+      <b>Tag 1</b>: platform/media (igreels, fbreels, shopeevideo).<br>
+      <b>Tag 2</b>: kata kunci produk/campaign.<br>
+      <b>Tag 3–5</b>: versi konten, tanggal promo, akun pembuat.
+    </div>
+    <div class="box" style="background:#fef2f2;border-color:#fecaca">
+      <b style="color:var(--r)">⚠ Jangan pakai tanda strip (-) di dalam nama tag!</b>
+      <p class="hint" style="margin-top:4px">Strip = pemisah kolom. <s>ig-reels</s> terbaca Tag1=<code>ig</code>, Tag2=<code>reels</code>. Generator ini otomatis membersihkannya.</p>
+    </div>
+    <div class="box" style="background:#f0f9ff;border-color:#bae6fd">
+      <b style="color:#0369a1">📱 Install sebagai Aplikasi (PWA)</b>
+      <p class="hint" style="margin-top:4px">Klik tombol <b>Install App</b> di header, atau menu browser → "Add to Home Screen". Data 100% lokal di perangkat Anda, aplikasi bisa dibuka offline.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>Shopee Affiliate Link Generator • <b>aturduit.web.id</b> • Data tersimpan lokal di perangkat Anda.</footer>
+
+<!-- MODAL SIMPAN -->
+<div class="modal" id="mSave"><div class="mbox">
+  <div class="mhead"><h3>🔖 Simpan Link</h3><button class="mclose" onclick="closeM('mSave')">✕</button></div>
+  <div class="field"><label>Nama / Judul Link *</label><input type="text" id="sTitle" placeholder="Contoh: Lemari Sepatu Batch 1 - IG Reels"></div>
+  <div class="field"><label>Kategori</label><select id="sCat"></select><button onclick="openCatModal()" style="background:none;color:var(--o);font-size:11px;margin-top:4px;padding:0">+ Kategori baru?</button></div>
+  <div class="field"><label>Catatan (opsional)</label><textarea id="sNote" rows="2" placeholder="Catatan tambahan..."></textarea></div>
+  <div class="row" style="margin-top:6px"><button class="btn btn-s" onclick="closeM('mSave')">Batal</button><button class="btn btn-o" onclick="doSave()">💾 Simpan</button></div>
+</div></div>
+
+<!-- MODAL EDIT -->
+<div class="modal" id="mEdit"><div class="mbox">
+  <div class="mhead"><h3>✏ Edit Link</h3><button class="mclose" onclick="closeM('mEdit')">✕</button></div>
+  <input type="hidden" id="eId">
+  <div class="field"><label>Nama / Judul</label><input type="text" id="eTitle"></div>
+  <div class="field"><label>Kategori</label><select id="eCat"></select></div>
+  <div class="field"><label>Catatan</label><textarea id="eNote" rows="2"></textarea></div>
+  <div class="row" style="margin-top:6px"><button class="btn btn-s" onclick="closeM('mEdit')">Batal</button><button class="btn btn-o" onclick="doEdit()">✓ Simpan Perubahan</button></div>
+</div></div>
+
+<!-- MODAL KATEGORI -->
+<div class="modal" id="mCat"><div class="mbox">
+  <div class="mhead"><h3>🏷 Kelola Kategori</h3><button class="mclose" onclick="closeM('mCat')">✕</button></div>
+  <div id="catList" style="display:flex;flex-direction:column;gap:7px;max-height:240px;overflow-y:auto;margin-bottom:14px"></div>
+  <div class="row"><input type="text" id="newCat" placeholder="Nama kategori baru..." onkeydown="if(event.key==='Enter')addCat()"><button class="btn btn-o" style="flex:0 0 auto" onclick="addCat()">＋</button></div>
+</div></div>
+
+<!-- MODAL KONFIRMASI -->
+<div class="modal" id="mConfirm" style="z-index:60"><div class="mbox" style="max-width:340px">
+  <h3 id="cTitle" style="margin-bottom:8px">Konfirmasi</h3>
+  <p id="cMsg" style="font-size:12.5px;color:var(--mut);margin-bottom:14px"></p>
+  <div class="row"><button class="btn btn-s" onclick="closeM('mConfirm')">Batal</button><button class="btn btn-d" id="cOk">Ya, Lanjutkan</button></div>
+</div></div>
+
+<script>
+/* ===== STATE & STORAGE ===== */
+const LS={id:'shopee_aff_id',links:'shopee_links_v1',cats:'shopee_cats_v1'};
+const DEF_CATS=['Fashion','Elektronik','Rumah Tangga','Kecantikan','Olahraga','Lainnya'];
+let affId='',curUrl='',curP={shop:'',item:''},bulk=[],prompt=null;
+const $=id=>document.getElementById(id);
+const jget=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const jset=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const links=()=>jget(LS.links,[]), cats=()=>jget(LS.cats,DEF_CATS);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const escq=s=>esc(s).replace(/'/g,'&#39;');
+const fmt=ts=>new Date(ts).toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+const dstr=()=>new Date().toISOString().slice(0,10);
+
+function syncLinks(a){jset(LS.links,a);renderSaved();renderArch();badges();}
+function badges(){const l=links();$('nSaved').textContent=l.filter(x=>!x.archived).length;$('nArch').textContent=l.filter(x=>x.archived).length;}
+
+/* migrate old 20-item history if present */
+function migrate(){const o=localStorage.getItem('shopee_taglink_history');if(!o)return;
+  try{const a=JSON.parse(o),L=links();
+    a.forEach(x=>{if(!L.some(l=>l.url===x.url))L.push({id:x.id||Date.now()+Math.random(),title:'Shop '+x.shopId,url:x.url,shopId:x.shopId,itemId:x.itemId,tags:[x.tag1,x.tag2].filter(t=>t&&t!=='-'),category:'Lainnya',note:'',archived:false,createdAt:typeof x.id==='number'?x.id:Date.now()});});
+    jset(LS.links,L);localStorage.removeItem('shopee_taglink_history');toast('Riwayat lama dimigrasi otomatis','success');
+  }catch(e){}}
+
+/* ===== INIT ===== */
+document.addEventListener('DOMContentLoaded',()=>{
+  const s=localStorage.getItem(LS.id);
+  if(s){affId=s;$('affIn')?.remove;} // noop guard
+  const inp=$('affiliateIdInput');if(s){inp.value=s;idUI(true,s);}
+  migrate();renderSaved();renderArch();badges();
+  if(!s)toast('Atur Affiliate ID Anda dulu di bagian atas','info');
+  if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
+});
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();prompt=e;$('installBtn').classList.remove('hide')});
+function installPWA(){if(prompt){prompt.prompt();prompt.userChoice.then(()=>{prompt=null;$('installBtn').classList.add('hide')});}else toast('Gunakan menu browser → "Add to Home Screen"','info')}
+
+/* ===== AFF ID ===== */
+function idUI(on,v){$('idDot').className='dot'+(on?' on':'');$('idText').textContent='Affiliate ID: '+(on?'an_'+v:'Belum Diset');$('idHelp').classList.toggle('hide',!on);$('idActive').textContent='an_'+v;}
+function saveAffId(){let v=$('affiliateIdInput').value.trim();if(!v)return toast('Masukkan ID atau paste link affiliate','warning');
+  let id=v;const m=v.match(/utm_source=an_([a-zA-Z0-9]+)/)||v.match(/an_([a-zA-Z0-9]+)/);
+  if(m)id=m[1];else if(!/^\d+$/.test(v))id=v.replace(/[^a-zA-Z0-9_]/g,'');
+  if(!id)return toast('Format ID tidak valid','error');
+  affId=id;localStorage.setItem(LS.id,id);$('affiliateIdInput').value=id;idUI(true,id);toast('Affiliate ID tersimpan!','success');gen();}
+function scrollToSettings(){$('settingsSection').scrollIntoView({behavior:'smooth'});$('affiliateIdInput').focus()}
+
+/* ===== PARSE ===== */
+function parseShopee(s){if(!s)return{shop:'',item:''};let m;
+  if((m=s.match(/i\.(\d+)\.(\d+)/)))return{shop:m[1],item:m[2]};
+  if((m=s.match(/universal-link\/product\/(\d+)\/(\d+)/)))return{shop:m[1],item:m[2]};
+  if((m=s.match(/product\/(\d+)\/(\d+)/)))return{shop:m[1],item:m[2]};
+  const ms=s.match(/shopid=(\d+)/i),mi=s.match(/[?&]itemid=(\d+)/i);
+  return ms&&mi?{shop:ms[1],item:mi[1]}:{shop:'',item:''};}
+
+/* ===== SINGLE ===== */
+const san=v=>v.replace(/[\s-]+/g,'').replace(/[^a-zA-Z0-9_]/g,'');
+function san(el){const c=san(el.value);if(c!==el.value)el.value=c;gen();}
+function preset(v){$('t1').value=v;gen();toast('Tag 1 = '+v,'info')}
+function clearTags(){for(let i=1;i<=5;i++)$('t'+i).value='';gen()}
+function tags(){return[1,2,3,4,5].map(i=>san($('t'+i).value))}
+function gen(){
+  const u=$('productUrl').value.trim();let p=parseShopee(u);
+  if(!p.shop&&$('mShop').value.trim())p.shop=$('mShop').value.trim().replace(/\D/g,'');
+  if(!p.item&&$('mItem').value.trim())p.item=$('mItem').value.trim().replace(/\D/g,'');
+  curP=p;
+  if(!p.shop||!p.item){$('output').textContent=u?'⚠ Link tidak dikenali. Isi Shop ID & Item ID manual jika shortlink.':'Masukkan link produk Shopee di atas...';
+    $('detected').textContent='Shop: - | Item: -';['btnCopy','btnTest','btnSave'].forEach(b=>$(b).disabled=true);
+    $('tagBadge').textContent='utm_content=----';curUrl='';return;}
+  $('detected').textContent='Shop ID: '+p.shop+' | Item ID: '+p.item;
+  const ts=tags(),tagStr=ts.join('-');$('tagBadge').textContent='utm_content='+tagStr;
+  const id=affId||'YOUR_AFFILIATE_ID';
+  const base=document.querySelector('input[name="urlType"]:checked').value==='universal'
+    ?'https://shopee.co.id/universal-link/product/'+p.shop+'/'+p.item
+    :'https://shopee.co.id/product/'+p.shop+'/'+p.item;
+  curUrl=base+'?utm_source=an_'+id+'&utm_medium=affiliates&utm_campaign=-&utm_content='+tagStr;
+  $('output').textContent=curUrl;['btnCopy','btnTest','btnSave'].forEach(b=>$(b).disabled=false);
+}
+function copyResult(){if(!curUrl)return;copy(curUrl);$('btnCopyTxt').textContent='Tersalin!';setTimeout(()=>$('btnCopyTxt').textContent='Salin Link',2000)}
+function testOpen(){if(curUrl)open(curUrl,'_blank')}
+
+/* ===== SIMPAN/EDIT/ARSIP/HAPUS ===== */
+function fillCat(sel){$(sel).innerHTML=cats().map(c=>'<option>'+esc(c)+'</option>').join('')}
+function showSave(){if(!curUrl)return toast('Belum ada link','warning');
+  fillCat('sCat');
+  const m=$('productUrl').value.match(/shopee\.co\.id\/(.+?)(?:-i\.\d+\.\d+)?(?:\?|$)/);
+  $('sTitle').value=m&&m[1]?decodeURIComponent(m[1]).replace(/-/g,' ').slice(0,80):'Item '+curP.item;
+  $('sNote').value='';openM('mSave');}
+function doSave(){const t=$('sTitle').value.trim();if(!t)return toast('Nama wajib diisi','warning');
+  const L=links();if(L.some(l=>l.url===curUrl))return toast('Link sudah pernah disimpan','warning');
+  L.push({id:Date.now(),title:t,url:curUrl,shopId:curP.shop,itemId:curP.item,tags:tags().filter(Boolean),category:$('sCat').value,note:$('sNote').value.trim(),archived:false,createdAt:Date.now()});
+  syncLinks(L);closeM('mSave');toast('Link tersimpan!','success')}
+function showEdit(id){const l=links().find(x=>x.id===id);if(!l)return;fillCat('eCat');
+  $('eId').value=id;$('eTitle').value=l.title;$('eCat').value=l.category;$('eNote').value=l.note||'';openM('mEdit')}
+function doEdit(){const L=links(),l=L.find(x=>x.id===+$('eId').value);if(!l)return;
+  const t=$('eTitle').value.trim();if(!t)return toast('Nama tidak boleh kosong','warning');
+  l.title=t;l.category=$('eCat').value;l.note=$('eNote').value.trim();syncLinks(L);closeM('mEdit');toast('Perubahan tersimpan','success')}
+function archiveLink(id){const L=links(),l=L.find(x=>x.id===id);if(l){l.archived=true;l.archivedAt=Date.now();syncLinks(L);toast('Link dipindah ke arsip','info')}}
+function unarchiveLink(id){const L=links(),l=L.find(x=>x.id===id);if(l){l.archived=false;delete l.archivedAt;syncLinks(L);toast('Link dipulihkan','success')}}
+function deleteLink(id){confirmA('Hapus Link','Link akan dihapus permanen dari perangkat ini. Lanjutkan?',()=>{syncLinks(links().filter(x=>x.id!==id));toast('Link dihapus','info')})}
+function confirmA(t,msg,fn){$('cTitle').textContent=t;$('cMsg').textContent=msg;
+  const b=$('cOk'),c=b.cloneNode(true);b.replaceWith(c);c.onclick=()=>{fn();closeM('mConfirm')};openM('mConfirm')}
+
+/* ===== BULK ===== */
+function processBulk(){const raw=$('bulkIn').value.trim();if(!raw)return toast('Tempel daftar URL dulu','warning');
+  const g=[1,2,3].map(i=>san($('bT'+i).value)),id=affId||'YOUR_AFFILIATE_ID';bulk=[];
+  raw.split('\n').forEach(line=>{const t=line.trim();if(!t)return;
+    const parts=t.split('|').map(p=>p.trim()),p=parseShopee(parts[0]);
+    if(!p.shop||!p.item)return;
+    const tg=[parts[1]?san(parts[1]):g[0],parts[2]?san(parts[2]):g[1],parts[3]?san(parts[3]):g[2],'',''];
+    const ts=tg.join('-');
+    bulk.push({shop:p.shop,item:p.item,tag1:tg[0],tag2:tg[1],url:'https://shopee.co.id/universal-link/product/'+p.shop+'/'+p.item+'?utm_source=an_'+id+'&utm_medium=affiliates&utm_campaign=-&utm_content='+ts});});
+  renderBulk();toast(bulk.length+' link diproses',bulk.length?'success':'warning')}
+function renderBulk(){const b=$('bBody');$('bCount').textContent=bulk.length;
+  if(!bulk.length){b.innerHTML='<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:22px">Tidak ada link valid.</td></tr>';return}
+  b.innerHTML=bulk.map((r,i)=>'<tr><td style="text-align:center;color:#94a3b8">'+(i+1)+'</td><td class="mono" style="font-size:11px"><b>'+r.shop+'</b> / '+r.item+'</td><td><span style="background:#ffedd5;color:var(--o);border-radius:6px;padding:2px 6px;font-size:10.5px">'+esc(r.tag1||'-')+'</span> '+(r.tag2?'<span class="chip" style="margin-left:4px">'+esc(r.tag2)+'</span>':'')+'</td><td class="mono" style="font-size:10.5px;word-break:break-all;max-width:260px;color:#475569">'+esc(r.url)+'</td><td style="text-align:center"><button class="btn btn-o" style="padding:5px 10px;font-size:11px" onclick="copy(bulk['+i+'].url)">Salin</button></td></tr>').join('')}
+function copyAllBulk(){if(!bulk.length)return toast('Tidak ada hasil','warning');copy(bulk.map(r=>r.url).join('\n'))}
+function dlBulkCSV(){csv(bulk.map((r,i)=>({No:i+1,ShopID:r.shop,ItemID:r.item,Tag1:r.tag1,Tag2:r.tag2,URL:r.url})),'shopee_bulk_'+dstr()+'.csv')}
+function saveBulk(){if(!bulk.length)return toast('Tidak ada hasil','warning');
+  const L=links();let n=0;
+  bulk.forEach((r,i)=>{if(L.some(l=>l.url===r.url))return;
+    L.push({id:Date.now()+i,title:'Item '+r.item,url:r.url,shopId:r.shop,itemId:r.item,tags:[r.tag1,r.tag2].filter(Boolean),category:'Lainnya',note:'bulk',archived:false,createdAt:Date.now()+i});n++;});
+  syncLinks(L);toast(n+' link tersimpan','success')}
+
+/* ===== KATEGORI ===== */
+function openCatModal(){renderCats();openM('mCat')}
+function renderCats(){const L=links();
+  $('catList').innerHTML=cats().map(c=>{const n=L.filter(l=>l.category===c).length;
+    return '<div style="display:flex;justify-content:space-between;align-items:center;background:#f8fafc;border:1px solid var(--bd);border-radius:9px;padding:8px 11px"><span style="font-size:13px;font-weight:500">'+esc(c)+' <span style="font-size:10px;color:#94a3b8">('+n+' link)</span></span><button class="iconbtn r" onclick="delCat(\''+escq(c)+'\')">🗑</button></div>'}).join('')}
+function addCat(){const v=$('newCat').value.trim();if(!v)return toast('Nama kategori kosong','warning');
+  const c=cats();if(c.some(x=>x.toLowerCase()===v.toLowerCase()))return toast('Kategori sudah ada','warning');
+  c.push(v);jset(LS.cats,c);$('newCat').value='';renderCats();renderSaved();toast('Kategori ditambahkan','success')}
+function delCat(name){const L=links(),used=L.some(l=>l.category===name);
+  const fn=()=>{jset(LS.cats,cats().filter(c=>c!==name));L.forEach(l=>{if(l.category===name)l.category='Lainnya'});jset(LS.links,L);renderCats();renderSaved();renderArch();toast('Kategori dihapus (link pindah ke Lainnya)','info')};
+  if(used)confirmA('Hapus Kategori','Ada link di kategori "'+name+'". Link akan dipindah ke "Lainnya". Lanjutkan?',fn);else fn()}
+
+/* ===== RENDER LIST ===== */
+function renderSaved(){
+  const q=($('fSearch').value||'').toLowerCase(),cat=$('fCat').value,sort=$('fSort').value;
+  const curCat=cat;$('fCat').innerHTML='<option value="">Semua Kategori</option>'+cats().map(c=>'<option '+(c===curCat?'selected':'')+'>'+esc(c)+'</option>').join('');
+  $('catChips').innerHTML=cats().map(c=>'<button class="fchip'+(cat===c?' on':'')+'" onclick="$(\'fCat\').value=\''+escq(c)+'\';renderSaved()">'+esc(c)+'</button>').join('');
+  let items=links().filter(l=>!l.archived);
+  if(cat)items=items.filter(l=>l.category===cat);
+  if(q)items=items.filter(l=>(l.title+' '+l.url+' '+l.shopId+' '+l.itemId+' '+(l.tags||[]).join(' ')+' '+(l.note||'')).toLowerCase().includes(q));
+  items.sort((a,b)=>sort==='old'?a.createdAt-b.createdAt:sort==='name'?a.title.localeCompare(b.title):b.createdAt-a.createdAt);
+  draw($('savedList'),items,false)}
+function renderArch(){const q=($('aSearch').value||'').toLowerCase();
+  let items=links().filter(l=>l.archived);
+  if(q)items=items.filter(l=>(l.title+' '+l.url+' '+(l.tags||[]).join(' ')+' '+(l.note||'')).toLowerCase().includes(q));
+  items.sort((a,b)=>(b.archivedAt||b.createdAt)-(a.archivedAt||a.createdAt));
+  draw($('archList'),items,true)}
+function draw(el,items,arch){
+  if(!items.length){el.innerHTML='<div class="empty">'+(arch?'Belum ada link terarsip.':'Belum ada link tersimpan. Generate link lalu klik "Simpan".')+'</div>';return}
+  el.innerHTML=items.map(l=>
+  '<div class="item"><div class="item-top"><div style="min-width:0">'+
+  '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span class="item-title">'+esc(l.title)+'</span><span class="cat">'+esc(l.category||'-')+'</span></div>'+
+  '<p class="meta">Shop: '+esc(l.shopId)+' • Item: '+esc(l.itemId)+' • '+fmt(l.createdAt)+'</p></div>'+
+  '<div class="actions">'+
+  (arch?'<button class="iconbtn g" title="Pulihkan" onclick="unarchiveLink('+l.id+')">↩</button>'
+       :'<button class="iconbtn a" title="Arsipkan" onclick="archiveLink('+l.id+')">📦</button>')+
+  '<button class="iconbtn" title="Edit" onclick="showEdit('+l.id+')">✏</button>'+
+  '<button class="iconbtn r" title="Hapus" onclick="deleteLink('+l.id+')">🗑</button></div></div>'+
+  (l.note?'<p class="note">📝 '+esc(l.note)+'</p>':'')+
+  '<div class="urlbox">'+esc(l.url)+'</div>'+
+  '<div class="item-bot"><div class="tagchips">'+(l.tags||[]).map(t=>'<span class="chip">'+esc(t)+'</span>').join('')+'</div>'+
+  '<div style="display:flex;gap:6px"><button class="btn btn-o" style="padding:6px 13px;font-size:11.5px" onclick="copy(\''+escq(l.url)+'\')">📋 Salin</button>'+
+  '<button class="btn btn-s" style="padding:6px 10px;font-size:11.5px" onclick="open(\''+escq(l.url)+'\',\'_blank\')">↗</button></div></div></div>').join('')}
+
+/* ===== EXPORT/IMPORT ===== */
+function dl(content,name,mime){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type:mime}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},100)}
+function csv(rows,name){if(!rows.length)return toast('Tidak ada data','warning');
+  const h=Object.keys(rows[0]);
+  dl('\uFEFF'+[h.join(','),...rows.map(r=>h.map(k=>'"'+String(r[k]??'').replace(/"/g,'""')+'"').join(','))].join('\n'),name,'text/csv;charset=utf-8');toast('CSV diunduh','success')}
+function expCSV(){csv(links().filter(l=>!l.archived).map((l,i)=>({No:i+1,Nama:l.title,Kategori:l.category,ShopID:l.shopId,ItemID:l.itemId,Tags:(l.tags||[]).join(' '),Catatan:l.note||'',URL:l.url,Tanggal:new Date(l.createdAt).toLocaleString('id-ID')})),'shopee_links_'+dstr()+'.csv')}
+function expArchCSV(){csv(links().filter(l=>l.archived).map((l,i)=>({No:i+1,Nama:l.title,Kategori:l.category,URL:l.url})),'shopee_arsip_'+dstr()+'.csv')}
+function expJSON(){dl(JSON.stringify({exportedAt:new Date().toISOString(),affiliateId:affId,categories:cats(),links:links()},null,2),'shopee_backup_'+dstr()+'.json','application/json');toast('Backup JSON diunduh','success')}
+function impJSON(ev){const f=ev.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=e=>{try{
+    const d=JSON.parse(e.target.result);if(!Array.isArray(d.links))throw 0;
+    const L=links();let n=0;
+    d.links.forEach(l=>{if(!L.some(x=>x.url===l.url)){L.push(l);n++}});
+    jset(LS.links,L);
+    if(Array.isArray(d.categories)){const c=cats();d.categories.forEach(x=>{if(!c.includes(x))c.push(x)});jset(LS.cats,c)}
+    renderSaved();renderArch();badges();toast(n+' link di-restore','success');
+  }catch(err){toast('File JSON tidak valid','error')}ev.target.value=''};
+  r.readAsText(f)}
+
+/* ===== TABS/MODAL/UTIL ===== */
+function switchTab(n){['single','bulk','history','archive','guide'].forEach(t=>{
+  $('tb-'+t).classList.toggle('on',t===n);$('tp-'+t).classList.toggle('hide',t!==n)})}
+function openM(id){$(id).classList.add('open')}
+function closeM(id){$(id).classList.remove('open')}
+document.addEventListener('click',e=>{if(e.target.classList&&e.target.classList.contains('modal'))e.target.classList.remove('open')});
+function copy(text){if(!text)return;const ok=()=>toast('Link tersalin ke clipboard!','success');
+  if(navigator.clipboard&&isSecureContext)navigator.clipboard.writeText(text).then(ok).catch(()=>fb(text,ok));else fb(text,ok)}
+function fb(text,ok){const t=document.createElement('textarea');t.value=text;t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();
+  try{document.execCommand('copy');ok()}catch(e){toast('Gagal menyalin otomatis','error')}t.remove()}
+function toast(m,type){const c=$('toasts'),t=document.createElement('div');
+  t.className='toast '+(type||'info');t.textContent=m;c.appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('in'));
+  setTimeout(()=>{t.classList.remove('in');setTimeout(()=>t.remove(),300)},2800)}
+</script>
+</body>
+</html>
